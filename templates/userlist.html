@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}會員表{% endblock %}
+{% block content %}
+
+<table>
+    {% for user in users %}
+    <tr>
+        <td>姓名:{{ user.name}}</td> 
+        <td> 生日:{{ user.year}}/{{ user.month }}/{{ user.day}}</td> 
+        <td> 密碼:{{ user.password}}</td>
+    </tr>
+    
+    {% endfor %}
+</table>
+
+{% endblock %}

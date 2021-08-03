@@ -1,0 +1,43 @@
+
+{% extends 'base.html' %}
+{% block title %} SignUp {% endblock %}
+
+<!--分隔線--> 
+{% block upload %}
+{% if message %}
+    <div class="alert alert-warning">{{ message }}</div>
+{% endif %}
+  <!--  <form action = '.' method = 'POST'>-->
+    <form action="" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <table>
+            {{ signup_form.as_table }}
+        </table>
+        <br>
+        {{ form.image }}
+        </br>
+        <input type = 'submit' value = '註冊'>
+    </from>
+ <!-- 分隔線     
+<form action="" enctype="multipart/form-data" method="POST"></form>
+    {% csrf_token %}
+    <br />
+    <div class="form-row">
+        <div class="form-group col-md-4">
+        </div>
+        <div class="form-group col-md-4">
+         <input class="btn btn-primary" type="submit" value="上傳" />
+        </div>
+        <div class="form-group col-md-4">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+        </div>
+        <div class="form-group col-md-4">
+        </div>
+        <div class="form-group col-md-4">
+        </div>
+    </div>--> 
+</form>
+{% endblock %}

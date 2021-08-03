@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}會員資訊{% endblock %}
+{% block content %}
+<p>
+    <table>
+        <tr>
+            <td>姓名:{{ username }}</td>
+        </tr>
+        <tr>
+            <td>出生年:{{ useryear }}年{{ usermonth }}月{{ userday }}日</td>
+        </tr>
+        <tr>
+            <td>性別:{{ usergender }}</td>
+        </tr>
+        <tr>
+            <td>密碼:{{ userpassword }}</td>
+        </tr>
+    </table>
+</p>
+
+<a href = "/userdelete/{{ username }}/{{ userpassword }}/"><button type="button" class="btn btn-danger">刪除資料</button></a>
+
+
+{% endblock %}

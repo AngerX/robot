@@ -1,46 +1,15 @@
-{% extends 'base.html' %}
-
-{% block upload %}
-<form action="" enctype="multipart/form-data" method="POST">
-    {% csrf_token %}
-    <a class="nav-link" href="/Signup/"><h3 align="right" valign="top">註冊</h3></a>
-    <br />
-    <div class="form-row">
-        <div class="form-group col-md-4">
-        </div>
-        <div class="form-group col-md-4">
-        <!-- <input class="btn btn-primary" type="submit" value="上傳" />-->
-        </div>
-        <div class="form-group col-md-4">
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-4">
-        </div>
-        <div class="form-group col-md-4">
-           <!-- {{ form.image }}-->
-        </div>
-        <div class="form-group col-md-4">
-        </div>
-    </div>
-</form>
-{% endblock  %}
-
-
+{% extends "base.html" %}
 {% block content %}
+<h3>首頁</h3>
+<a href = '/'><button type="button" class="btn btn-warning">登出</button></a>
+<table>
+ <tr>
+  <td>姓名:{{ individual.name }} </td> 
+  <td>生日:{{ individual.year}}/{{ individual.month }}/{{ individual.day}}</td> 
+  <td><img src="{{individual.image.url }}" width="200" alt="錯誤">  </td>
+ </tr>
+</table>
 
-<div class="row">
-    {% for photo in photos %}
-
-    <br />
-    <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-            <a href="/testpage/{{n}}"><img class="card-img-top" src="{{ photo.image.url }}" /></a>
-
-        </div>
-    </div>
-    {% endfor %}
-</div>
-
-{% endblock  %}
+<a href = '/testpage/{{ n }}/{{ individual.name }}/{{ individual.password }}/'>跑五次測試</a>
+{% endblock %}
 <!--<a class="nav-link" href="/testpage/{{n}}">短期記憶遊戲</a>-->

@@ -15,19 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from robot.views import index, login,  logout, signup, userinfo, userlist, userdelete ,testpage
+from robot.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', index),
-    path('Login/', login),
+    path('', login),
+    path('index/<str:name>/<int:password>/', index),
     path('logout/', logout),
     path('Signup/', signup),
-    path('userinfo/', userinfo),
-    path('userlist/', userlist),
-    path('userdelete/<str:name>/<int:password>/', userdelete),
     path('admin/', admin.site.urls),
-    path('testpage/<int:n>/', testpage),
+    path('testpage/<int:n>/<str:name>/<str:password>/', testpage),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG: #在debug模式啟動時
+    #django原本不支援靜態檔，所以要加上這行之後在網頁http://127.0.0.1:8000/media/image/~~~~~.jpg 可直接在網頁上顯示該資料夾底下的圖片
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)     

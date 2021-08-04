@@ -6,10 +6,10 @@ from .models import *
 from django import forms
 from robot import models, forms
 from django.shortcuts import redirect
-from .models import User
+from .models import *
 from django.contrib import messages
-from .forms import UploadModelForm
-
+from .forms import SignupForm
+from django.core.files.storage import FileSystemStorage
 
 import os
 import django
@@ -19,143 +19,57 @@ django.setup()
 #from django import forms
 
 
-def index(request):
+def index(request, name, password):
+    individual = Userdata.objects.get(name = name, password = password)
     n = 0
-    if 'username' in request.session:
-        username = request.session['username']
-        key = 1
-        message = "登入中"
-        if username == None:
-            key = 0
-            message = '未登入'
-        if username == 'root':
-            root = 1
-            message = "管理員登入"
-    else:   
-        key = 0
-        message = '未登入'
-
-
-    photos = Photo.objects.all()  #查詢所有資料
-
-    form = UploadModelForm()
-
-    if request.method == "POST":
-        form = UploadModelForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
-    context = {
-        'photos': photos,
-        'form': form
-    }
-   #return render(request, 'photos/index.html', context)
     return render(request, 'index.html', locals())
 
 def login(request):
-    if request.method == 'POST':
-        login_form = forms.LoginForm(request.POST)
-        if login_form.is_valid():
-            
-            login_name = request.POST['username'].strip()
-            login_password = request.POST['password']
-            try:
-                user = models.Userdata.objects.get(name = login_name, password = login_password)
-                if user.password == login_password:
-                    request.session['username'] = user.name
-                    request.session['year'] = user.year
-                    request.session['month'] = user.month
-                    request.session['day'] = user.day
-                    request.session['gender'] = user.gender
-                    request.session['password'] = user.password
-                    
-                    return redirect('/')
-                else:
-                    message = '密碼錯誤'
-                    #messages.add_message(request, messages.WARNING, '密碼錯誤')
-            except:
-                message = '無此帳號'
-                #messages.add_message(request, messages.WARNING, '無此帳號')
-        else:
-            message = '請檢查欄位'
-            #messages.add_message(request, messages.INFO, '請檢查欄位')
-    else:
-        login_form = forms.LoginForm()
-
+    userdatas = Userdata.objects.all()
+    
     return render(request, 'Login.html', locals())
 
-
 def logout(request):
-    request.session['username'] = None
-    key = 0
     return redirect('/')
 
 def signup(request):
-    if request.method == 'POST':
-        signup_form = forms.SignupForm(request.POST)
-        if signup_form.is_valid():
-            signup_name = request.POST['username'].strip()
+    if request.method == 'POST': #如果收到表單提交
+        signup_form = forms.SignupForm(request.POST, request.FILES)
+        if signup_form.is_valid():#如果每個內容都有填入的話
+            signup_name = request.POST['username'].strip() #.strip()代表去掉左右的空白(space)，怕使用者打密碼時案到空白建
             signup_year = request.POST['year']
             signup_month = request.POST['month']
             signup_day = request.POST['day']
             signup_gender = request.POST['gender']
-            
+            signup_image = request.FILES['Photos'] #取得表單(forms)中的內容
+            print(signup_image.name) #於終端機輸出圖片名稱
+            print(signup_image.size) #於終端機輸出圖片大小(bytes)
+            print(signup_image)
+            #fs = FileSystemStorage()
+            #sfs.save(signup_image.name, signup_image) 這兩行會直接將圖片存在media底下
             try:
                 user = models.Userdata.objects.get(name = signup_name, year = signup_year, month = signup_month, day = signup_day, gender = signup_gender)
                 message = '帳號已存在'
-                    #return redirect('/')
             except:
                 signup_password = str(signup_year) + str(signup_month) + str(signup_day)
-                user = Userdata.objects.create(name = signup_name, year = signup_year, month = signup_month, day = signup_day, gender = signup_gender, password = signup_password)
+                user = Userdata.objects.create(name = signup_name, year = signup_year, month = signup_month, day = signup_day, gender = signup_gender, password = signup_password, image = signup_image)
                 user.save()
-                message = '帳號已建立成功'
+                return redirect('/')
                 #messages.add_message(request, messages.WARNING, '無此帳號')
         else:
             message = '請檢查欄位'
             #messages.add_message(request, messages.INFO, '請檢查欄位')
     else:
-        signup_form = forms.SignupForm()
-    photos = Photo.objects.all()  #查詢所有資料
-
-    form = UploadModelForm()
-
-    if request.method == "POST":
-        form = UploadModelForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
-    context = {
-        'photos': photos,
-        'form': form
-    }
-
+        signup_form = forms.SignupForm() #若表單還沒提交，用signup_form存forms的SignupForm內容後交給html顯示
     return render(request, 'SignUp.html', locals())
 
-def userinfo(request):
-    username = request.session['username']
-    useryear = request.session['year']
-    usermonth = request.session['month']
-    userday = request.session['day']
-    usergender = request.session['gender']
-    userpassword = request.session['password']  
-    return render(request, 'userinfo.html', locals())
-
-def userdelete(request, name, password):
-    request.session['username'] = None
-    user = Userdata.objects.get(name = name, password = password)
-    user.delete()
-    return redirect('/')
-
-def userlist(request):
-    users = Userdata.objects.all()
-    return render(request, 'userlist.html', locals())
-
-def testpage(request, n):
-
-    if n == 5:
-        return redirect('/')
-    else:
-        n += 1
+def testpage(request, n, name, password):
+    name = name
+    password = password
+    
+    n += 1
+    if n == 6:
+        return redirect('/index/'+name+'/'+password+'/')
     return render(request, 'testpage.html',locals())
 
 

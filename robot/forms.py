@@ -1,5 +1,5 @@
 from django import forms
-from .models import Photo
+from .models import *
 ##from .models import Userdata
 
 column, row = 2, 12
@@ -12,9 +12,6 @@ YEAR = [[0 for _ in range(column)] for _ in range(row) ]
 column, row = 2, 31
 DAY = [[0 for _ in range(column)] for _ in range(row) ]
 
-class LoginForm(forms.Form):
-    username = forms.CharField(label = '姓名', max_length=10)
-    password = forms.CharField(label = '密碼(出生年月日)', widget=forms.PasswordInput())
 
 class SignupForm(forms.Form):
     
@@ -42,13 +39,6 @@ class SignupForm(forms.Form):
     month = forms.ChoiceField(label = '月', choices = MONTH)
     day = forms.ChoiceField(label = '日', choices = DAY)
     gender = forms.ChoiceField(label = '性別', choices = GENDER)
-    Photos = forms.FileInput(attrs={'class': 'form-control-file'})
+    Photos = forms.ImageField()
 
-class UploadModelForm(forms.ModelForm):
-    class Meta:
-        model = Photo
-        fields = ('image',)
-        widgets = {
-            'image': forms.FileInput(attrs={'class': 'form-control-file'})
-        }   
-
+        

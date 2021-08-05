@@ -39,6 +39,6 @@ class SignupForm(forms.Form):
     month = forms.ChoiceField(label = '月', choices = MONTH)
     day = forms.ChoiceField(label = '日', choices = DAY)
     gender = forms.ChoiceField(label = '性別', choices = GENDER)
-    Photos = forms.ImageField()
+    Photos = forms.ImageField(label = '大頭貼')
 
         

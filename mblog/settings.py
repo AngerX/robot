@@ -134,6 +134,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 #STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'))
 django_heroku.settings(locals())
+
 #靜態檔設定
 #儲存django的圖片檔，也可使用絕對位置，MEDIA_ROOT = '/robot/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 

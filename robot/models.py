@@ -15,6 +15,7 @@ class Userdata(models.Model):
     def __str__(self):
         return self.name
 
-
+class Sort_term_memory(models.Model):
+    image = models.ImageField(upload_to='stm_picture/', blank=False, null=False) 
 
 # Create your models here.

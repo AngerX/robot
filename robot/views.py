@@ -26,7 +26,6 @@ def index(request, name, password):
 
 def login(request):
     userdatas = Userdata.objects.all()
-    
     return render(request, 'Login.html', locals())
 
 def logout(request):

@@ -71,7 +71,11 @@ def testpage(request, n, name, password):
         return redirect('/index/'+name+'/'+password+'/')
     return render(request, 'testpage.html',locals())
 
-
+def introduction(request, name, password):
+    userdatas = Userdata.objects.all()
+    individual = Userdata.objects.get(name = name, password = password)
+    n = 0
+    return render(request, 'introduction.html', locals())
 
 # Create your views here.
 

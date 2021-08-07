@@ -26,6 +26,7 @@ urlpatterns = [
     path('Signup/', signup),
     path('admin/', admin.site.urls),
     path('testpage/<int:n>/<str:name>/<str:password>/', testpage),
+    path('introduction/<str:name>/<int:password>',introduction),
 ]
 if settings.DEBUG: #在debug模式啟動時
     #django原本不支援靜態檔，所以要加上這行之後在網頁http://127.0.0.1:8000/media/image/~~~~~.jpg 可直接在網頁上顯示該資料夾底下的圖片

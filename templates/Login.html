@@ -6,8 +6,8 @@
  <table class="table table-hover">
  {% for userdata in userdatas%}
   <tr>
-   <td><a href = '/index/{{ userdata.name }}/{{ userdata.password }}'><img src="{{ userdata.image.url }}" width="200" alt="錯誤"></a></td>
-   <td>{{ userdata.name }}</td>
+   <td><a href = '/index/{{ userdata.name }}/{{ userdata.password }}'><img src="{{ userdata.image.url }}" width="200" height="200" alt="錯誤"></a></td>
+   <td>用戶名稱:{{ userdata.name }}</td>
   </tr>
   {% endfor %}
  </table>

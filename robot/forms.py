@@ -34,7 +34,7 @@ class SignupForm(forms.Form):
         ['WOMAN', '女']
     ]
 
-    username = forms.CharField(label = '姓名', max_length=10)
+    username = forms.CharField(label = '姓名', max_length=10, widget=forms.TextInput(attrs={'class':'form-control', 'style':'width:100%'}))
     year = forms.ChoiceField(label = '出生年', choices = YEAR)
     month = forms.ChoiceField(label = '月', choices = MONTH)
     day = forms.ChoiceField(label = '日', choices = DAY)
